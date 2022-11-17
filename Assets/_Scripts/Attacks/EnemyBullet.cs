@@ -3,16 +3,16 @@ using UnityEngine;
 public class EnemyBullet : MonoBehaviour
 {
     [SerializeField] private float speed;
-    private Rigidbody2D rigidbody2D;
+    private Rigidbody2D rb;
     
     private void Awake()
     {
-        rigidbody2D = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
 
     private void Start()
     {
-        rigidbody2D.velocity = -transform.up * speed;
+        rb.velocity = -transform.up * speed;
     }
 
     private void OnCollisionEnter2D(Collision2D col)
