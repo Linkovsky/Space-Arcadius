@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 0}
   speed: 0.35
+  projectile: {fileID: 3026857471791212474, guid: 041b2f2a4cda24a4f8ba3cd35158f73c, type: 3}
 --- !u!1 &8720382747034484886
 GameObject:
   m_ObjectHideFlags: 0
