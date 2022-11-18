@@ -1,31 +1,32 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using Arcade.Dialogue;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace Arcade.Dialogue
 {
     public class Dialogue : MonoBehaviour
     {
         public static Dialogue Instance { get; }
-
+        
+        [SerializeField] private Image speakerIcon;
         private TextMeshProUGUI text;
         private WaitForSeconds charDelay;
+        
         private bool isRunning = false;
         private string dialogue;
+        
         private void Awake()
         {
-            charDelay = new WaitForSeconds(0.1f);
-            text = GetComponent<TextMeshProUGUI>();
+            charDelay = new WaitForSeconds(0.05f);
+            text = GetComponentInChildren<TextMeshProUGUI>();
             text.text = "";
         }
-    
-        public IEnumerator ReceiveDialogue(DialogueScript dialogueText)
+        
+        public IEnumerator ReceiveDialogueAsset(DialogueScript dialogueText)
         {
+            speakerIcon.sprite = dialogueText.icon;
             foreach (var t in dialogueText.Text)
             {
                 text.text = "";
