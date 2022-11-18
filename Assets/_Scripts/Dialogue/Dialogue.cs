@@ -4,17 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using Arcade.Dialogue;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Arcade.Dialogue
 {
     public class Dialogue : MonoBehaviour
     {
-        [SerializeField] private DialogueScript dialogueText;
-    
+        public static Dialogue Instance { get; }
+
         private TextMeshProUGUI text;
         private WaitForSeconds charDelay;
-        private Coroutine coroutineVar;
         private bool isRunning = false;
         private string dialogue;
         private void Awake()
@@ -24,15 +24,14 @@ namespace Arcade.Dialogue
             text.text = "";
         }
     
-        private IEnumerator Start()
+        public IEnumerator ReceiveDialogue(DialogueScript dialogueText)
         {
             foreach (var t in dialogueText.Text)
             {
                 text.text = "";
                 dialogue = t;
                 isRunning = true;
-                //TODO: Manage the coroutine so after it stops it gets back to the parent and continue
-                yield return coroutineVar = StartCoroutine(StartDialogue());
+                yield return StartCoroutine(StartDialogue());
                 text.text = dialogue;
                 yield return new WaitUntil(() => Input.GetKeyDown(KeyCode.Mouse0));
             }
@@ -45,20 +44,23 @@ namespace Arcade.Dialogue
                 if (Input.GetKeyDown(KeyCode.Mouse0))
                 {
                     isRunning = false;
-                    StopCoroutine(coroutineVar);
-                    coroutineVar = null;
                 }
-                    
         }
     
         private IEnumerator StartDialogue()
         {
-            foreach (var t in dialogue)
+            int i = 0;
+            while (isRunning)
             {
-                text.text += t;
-                yield return charDelay;
+                if (i < dialogue.Last())
+                {
+                    text.text += dialogue[i].ToString();
+                    i++;
+                    yield return charDelay;
+                }
+                else
+                    isRunning = false;
             }
-            isRunning = false;
         }
     }
 }
