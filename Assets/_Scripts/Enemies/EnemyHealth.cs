@@ -1,6 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
+using Arcade.UI.Score;
 using UnityEngine;
 
 namespace Arcade.Enemy.Health
@@ -14,7 +12,11 @@ namespace Arcade.Enemy.Health
         {
             CurrentHealth -= amount;
             if (CurrentHealth <= 0)
+            {
+                Score.instance.AddScore(100);
                 Destroy(transform.parent.gameObject);
+            }
+                
         }
 
         internal void SetHealth(int amount)
